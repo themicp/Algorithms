@@ -32,6 +32,9 @@ float getY( float a, float b, int x ) {
 }
 
 int main() {
+    FILE *in = fopen( "segment-intersection.in", "r" );
+    FILE *out = fopen( "segment-intersection.out", "w" );
+
     bool flag;
 
     int p, q, i, x[ 2 ], y[ 2 ], ver[ 2 ];
@@ -43,14 +46,10 @@ int main() {
     ver[ 0 ] = 0;
     ver[ 1 ] = 0;
 
-    printf( "Enter the cordinates of A: " );
-    scanf( "%f %f", &A.x, &A.y );
-    printf( "\nEnter the cordinates of B: " );
-    scanf( "%f %f", &B.x, &B.y );
-    printf( "\nEnter the cordinates of C: " );
-    scanf( "%f %f", &C.x, &C.y );
-    printf( "\nEnter the cordinates of D: " );
-    scanf( "%f %f", &D.x, &D.y );
+    fscanf( in, "%f %f", &A.x, &A.y );
+    fscanf( in, "%f %f", &B.x, &B.y );
+    fscanf( in, "%f %f", &C.x, &C.y );
+    fscanf( in, "%f %f", &D.x, &D.y );
 
     AB.start = A;
     AB.end = B;
@@ -65,7 +64,6 @@ int main() {
     else {
         a[ 0 ] = ( B.y - A.y )/(float)( B.x - A.x );    
         b[ 0 ] = -a[ 0 ]*A.x + A.y;
-        printf( "\nAB:\ny = %.3f*x + %.3f\n\n", a[ 0 ], b[ 0 ] );
     }
 
     if ( D.x - C.x == 0 ) { //initialize CD
@@ -75,45 +73,43 @@ int main() {
     else {
         a[ 1 ] = ( D.y - C.y )/(float)( D.x - C.x );    
         b[ 1 ] = -a[ 1 ]*C.x + C.y;
-        printf( "\nCD:\ny = %.3f*x + %.3f\n\n", a[ 1 ], b[ 1 ] );
     }
 
     if ( a[ 0 ] == a[ 1 ] ) {
-        printf( "F\n" );
+        fprintf( out, "F\n" );
         return 0;
     }
     if ( ver[ 0 ] == 1 ) {
         if ( ver[ 1 ] == 1 ) {
             if ( A.x != C.x ) {
-                printf( "F\n" );
+                fprintf( out, "F\n" );
                 return 0;
             }
-            printf( "T\n" );
+            fprintf( out, "T\n" );
             return 0;
         }
         if ( inRange( AB.start.y, AB.end.y, getY( a[ 1 ], b[ 1 ], A.x ) ) ) {
-            printf( "T\n" );
+            fprintf( out, "T\n" );
             return 0;
         }
-        printf( "F\n" );
+        fprintf( out, "F\n" );
         return 0;
     }
     if ( ver[ 1 ] == 1 ) {
         if ( inRange( CD.start.y, CD.end.y, getY( a[ 0 ], b[ 0 ], C.x ) ) ) {
-            printf( "T\n" );
+            fprintf( out, "T\n" );
             return 0;
         }
-        printf( "F\n" );
+        fprintf( out, "F\n" );
         return 0;
     }
     M.x = ( b[ 1 ] - b[ 0 ] )/( a[ 0 ] - a[ 1 ] );
     M.y = a[ 0 ] * M.x + b[ 0 ];
-    printf( "\nM( %f, %f )\n", M.x, M.y  );
     if ( inSegment( M, AB ) && inSegment( M, CD ) ) {
-        printf( "T\n" );
+        fprintf( out, "T\n" );
         return 0;
     }
-    printf( "F\n" );
+    fprintf( out, "F\n" );
 
     return 0;
 }
