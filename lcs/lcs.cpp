@@ -1,90 +1,59 @@
 #include <cstdio>
-#include <cstdlib>
-#include <cstring>
+#include <string>
+#include <map>
+#include <utility>
+
+#define max( a, b ) a > b? a: b
 
 using namespace std;
 
-void BruteForce( int *array, int len ) {
-    --len;
-    if ( array[ len ] == 0 ) {
-        array[ len ] = 1;
-    }
-    else if ( array[ len ] == 1 && len > 0 ) {
-        array[ len ] = 0;
-        BruteForce( array, len );
-    }
-}
+map< pair< string, string >, int > memoize;
+map< pair< string, string >, int >::iterator find;
 
-FILE *in = fopen( "lcs.in", "r" ), *out = fopen( "lcs.out", "w" );
-char a[ 11 ], b[ 11 ], tempa[ 11 ], tempb[ 11 ];
-int i, o, len[ 2 ], *rma, *rmb, max;
-bool done, subbf;
+int MAX = 1000000;
+
+int lcs( string a, string b ) {
+    int i, N = a.length(), M = b.length();
+    int substring_lcs[ M + 1 ][ N + 1 ];
+
+    for ( int m = M; m >= 0; --m ) {
+        for ( int n = N; n >= 0; --n ) {
+            if ( m == M || n == N ) {
+                substring_lcs[ m ][ n ] = 0;
+            }
+            else if ( a.substr( n )[ 0 ] == b.substr( m )[ 0 ] ) {
+                substring_lcs[ m ][ n ] = substring_lcs[ m + 1 ][ n + 1 ] + 1;
+            }
+            else {
+                substring_lcs[ m ][ n ] = max ( substring_lcs[ m + 1 ][ n ], substring_lcs[ m ][ n + 1 ] );
+            }
+        }
+    }
+
+    return substring_lcs[ 0 ][ 0 ];
+}
 
 int main() {
-    fscanf( in, "%s\n", a );
-    fscanf( in, "%s\n", b );
+    FILE* fi = fopen( "lcs.in", "r" );
+    FILE* fo = fopen( "lcs.out", "w" );
+    int i, o;
 
-    strcpy( tempa, a );
-    strcpy( tempb, b );
+    string a;
+    string b;
 
-    len[ 0 ] = strlen( a );
-    len[ 1 ] = strlen( b );
+    char temp[ 2 ][ MAX ];
 
-    rma = ( int* )calloc( len[ 0 ], sizeof( int ) );
-    rmb = ( int* )calloc( len[ 1 ], sizeof( int ) );
+    fscanf( fi, "%s", temp[ 0 ] );
+    fscanf( fi, "%s", temp[ 1 ] );
 
-    while ( !done ) {
-        strcpy( tempa, a );
-        done = true;
-        for ( i = len[ 0 ] - 1; i >= 0; --i ) {
-            if ( rma[ i ] == 1 ) {
-                for ( o = i; o < len[ 0 ] - 1; ++o ) {
-                    tempa[ o ] = tempa[ o + 1 ];
-                }
-                tempa[ o ] = '\0';
+    a = temp[ 0 ];
+    b = temp[ 1 ];
 
-            }
-            if ( rma[ i ] != 1 ) {
-                done = false;
-            }
-        }
-        subbf = false;
-        while ( !subbf ) {
-            strcpy( tempb, b );
-            subbf = true;
-            for ( i = len[ 1 ] - 1; i >= 0; --i ) {
-                if ( rmb[ i ] == 1 ) {
-                    tempb[ i ] = '0';
-                    for ( o = i; o < len[ 1 ] - 1; ++o ) {
-                        tempb[ o ] = tempb[ o + 1 ];
-                    }
-                    tempb[ o ] = '\0';
+    fprintf( fo, "%i\n", lcs( a, b ) );
 
-                }
-                if ( rmb[ i ] != 1 ) {
-                    subbf = false;
-                }
-            }
-            if ( strcmp( tempa, tempb ) == 0 ) {
-                if ( strlen( tempa ) > max ) {
-                    max = strlen( tempa );
-                }
-            }
-            if ( !subbf ) {
-                BruteForce( rmb, len[ 1 ] );
-            }
-        }
-        for ( i = 0; i < len[ 1 ]; ++i ) {
-            rmb[ i ] = 0;
-        }
-        if ( !done ) {
-            BruteForce( rma, len[ 0 ] );
-        }
-    }
 
-    fprintf( out, "%i\n", max );
-
-    fclose( in );
-    fclose( out );
+    fclose( fi );
+    fclose( fo );
     return 0;
 }
+
