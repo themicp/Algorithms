@@ -1,1 +1,2 @@
 A program that given a shape implemented as an array of binary values, floods the available space with color.
+http://en.wikipedia.org/wiki/Flood_fill
