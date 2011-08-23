@@ -1,2 +1,9 @@
 A program that given two strings, returns the Longest Common Subsequence.
+
+INPUT:
+    2 lines, each one containing a string.
+OUTPUT:
+    One line, the length of the Longest common subsequence
+
+
 http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
