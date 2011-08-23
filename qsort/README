@@ -1,2 +1,10 @@
 My own implementation of quicksort.
+
+INPUT FILE:
+    The first line contains a single integer N, the array length.
+    The following N lines contain the values of the array.
+OUTPUT:
+    N lines, the sorted array.
+
+
 http://en.wikipedia.org/wiki/Quicksort
