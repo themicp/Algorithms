@@ -1,0 +1,2 @@
+ A program that given 4 vectors ( A, B, C and D ), determines if AB intersects CD.
+ http://en.wikipedia.org/wiki/Line_segment_intersection
