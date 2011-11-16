@@ -1,5 +1,6 @@
 #include <cstdio>
 #include <vector>
+#include <cstdlib>
 
 using namespace std;
 
@@ -55,12 +56,7 @@ void combineUp( Item *queue, int key ) {
     if ( key == 0 ) {
         return;
     }
-    if ( key % 2 == 0 ) {
-        parent = ( key / 2 ) - 1;
-    }
-    else {
-        parent = key / 2;
-    }
+    parent = ( key - 1 )/2;
 
     if ( queue[ key ].priority > queue[ parent ].priority ) {
         swap( queue, key, parent );
