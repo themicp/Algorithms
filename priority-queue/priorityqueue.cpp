@@ -14,6 +14,15 @@ struct heapTree {
     int size;
 };
 
+heapTree newTree() {
+    heapTree queue; 
+
+    queue.items = ( Item* )calloc( 10000, sizeof( Item ) );
+    queue.size = 0;
+
+    return queue;
+}
+
 void print( heapTree queue ) {
     int size = queue.size;
     int i;
@@ -113,7 +122,7 @@ Item max ( heapTree queue ) {
 heapTree queue;
 
 int main() {
-    queue.items = ( Item* )calloc( 10000, sizeof( Item ) );
+    queue = newTree();
     Item myItem;
 
     myItem.priority = 2;
