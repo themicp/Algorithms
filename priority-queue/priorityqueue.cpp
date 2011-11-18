@@ -107,6 +107,10 @@ bool isEmpty( heapTree queue ) {
 }
 
 void deleteMax( heapTree &queue ) {
+    if ( queue.size == 0 ) {
+        printf( "No more elements to delete.\n" );
+        return;
+    }
     queue.items[ 0 ] = queue.items[ queue.size - 1 ];
 
     queue.items[ queue.size - 1 ].priority = -1;
@@ -131,29 +135,6 @@ int main() {
     print( queue );
 
     insert( queue, myItem );
-    print( queue );
-
-    myItem.priority = 5;
-    myItem.data = 5;
-    insert( queue, myItem );
-    print( queue );
-
-    myItem.priority = 125;
-    myItem.data = 125;
-    insert( queue, myItem );
-    print( queue );
-
-    myItem.priority = 1;
-    myItem.data = 124;
-    insert( queue, myItem );
-    print( queue );
-
-    printf( "Priority: %i, Data: %i\n", max( queue ).priority, max( queue ).data );
-    deleteMax( queue );
-    print( queue );
-
-    printf( "Priority: %i, Data: %i\n", max( queue ).priority, max( queue ).data );
-    deleteMax( queue );
     print( queue );
 
     if ( isEmpty( queue ) ) {
