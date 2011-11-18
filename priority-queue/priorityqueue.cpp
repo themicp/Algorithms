@@ -71,20 +71,24 @@ void combineUp( heapTree queue, int key ) {
     }
 }
 
-void combineDown( heapTree queue, int key, int parent ) {
+void combineDown( heapTree queue, int key ) {
     int l = key * 2, r = ( key * 2 ) + 1;
 
-    queue.items[ parent ] = queue.items[ key ];
-    queue.items[ key ].priority = -1;
+    if ( key == 0 ) {
+        l = 1;
+        r = 2;
+    }
 
     if ( queue.items[ l ].priority > 0 ) {
-        if ( queue.items[ l ].priority > queue.items[ r ].priority ) { 
-            combineDown( queue, l, key );
+        if ( queue.items[ l ].priority >= queue.items[ r ].priority ) { 
+            swap( queue, l, key );
+            combineDown( queue, l );
         }
     }
     if ( queue.items[ r ].priority > 0 ) {
         if ( queue.items[ r ].priority > queue.items[ l ].priority ) { 
-            combineDown( queue, r, key );
+            swap( queue, r, key );
+            combineDown( queue, r );
         }
     }
 }
@@ -102,17 +106,13 @@ bool isEmpty( heapTree queue ) {
     return !queue.size > 0;
 }
 
-void deleteMax( heapTree queue ) {
-    int l = 1, r = 2, max;
+void deleteMax( heapTree &queue ) {
+    queue.items[ 0 ] = queue.items[ queue.size - 1 ];
 
-    if ( queue.items[ l ].priority >= queue.items[ r ].priority ) {
-        max = l;
-    }
-    else {
-        max = r;
-    }
+    queue.items[ queue.size - 1 ].priority = -1;
+    --queue.size;
 
-    combineDown( queue, max, 0 );
+    combineDown( queue, 0 );
 }
 
 Item max ( heapTree queue ) {
