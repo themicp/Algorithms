@@ -77,17 +77,11 @@ int main() {
     i = 0;
     min = totalTime( combs, N, coordinates, start );
     while ( !complete( combs, N ) ) {
+        BF( combs, N, N - 1 );
         current = totalTime( combs, N, coordinates, start );
         if ( current < min ) {
             min = current;
         }
-        BF( combs, N, N - 1 );
-    }
-
-    current = totalTime( combs, N, coordinates, start );
-    if ( current < min ) {
-        min = current;
-        printf( "%s\n", combs );
     }
 
     fprintf( out, "%i\n", min );
