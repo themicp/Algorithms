@@ -74,7 +74,6 @@ int main() {
         combs[ i ] = 0 + '0';
     }
 
-    i = 0;
     min = totalTime( combs, N, coordinates, start );
     while ( !complete( combs, N ) ) {
         BF( combs, N, N - 1 );
