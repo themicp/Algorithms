@@ -1,5 +1,6 @@
 #include <cstdio>
 #include <cstdlib>
+#include <cmath>
 
 using namespace std;
 
@@ -18,16 +19,6 @@ void BF( char *combs, int N, int key ) {
             BF( combs, N, key - 1 );
         }
     }
-}
-
-bool complete( char *combs, int N ) {
-    int i;
-    for ( i = 0; i < N; ++i ) {
-        if ( combs[ i ] == 0 + '0' ) {
-            return false;
-        }
-    }
-    return true;
 }
 
 int d( int x, int y, int dx, int dy ) {
@@ -56,31 +47,34 @@ int totalTime( char* combs, int N, Coords *coordinates, Coords *start ) {
 }
 
 char *combs;
-int i, N, R, C, min, current;
+int i, N, R, C, min, current, limit;
 Coords *coordinates;
 Coords start[ 2 ];
 FILE *in = fopen( "xmasshopping.in", "r" ), *out = fopen( "xmasshopping.out", "w" );
 
 int main() {
-    fscanf( in, "%i %i %i", &N, &R, &C );
+    fscanf( in, "%d %d %d", &N, &R, &C );
 
     combs = (char*)malloc( N * sizeof( char ) );
     coordinates = ( Coords* )malloc( N * sizeof( Coords ) );
 
-    fscanf( in, "%i %i %i %i", &start[ 0 ].x, &start[ 0 ].y, &start[ 1 ].x, &start[ 1 ].y );
+    fscanf( in, "%d %d %d %d", &start[ 0 ].x, &start[ 0 ].y, &start[ 1 ].x, &start[ 1 ].y );
 
     for ( i = 0; i < N; ++i ) {
-        fscanf( in, "%i %i", &coordinates[ i ].x, &coordinates[ i ].y );
+        fscanf( in, "%d %d", &coordinates[ i ].x, &coordinates[ i ].y );
         combs[ i ] = 0 + '0';
     }
 
+    limit = pow( 2, N );
     min = totalTime( combs, N, coordinates, start );
-    while ( !complete( combs, N ) ) {
+    while ( limit > 1 ) {
         BF( combs, N, N - 1 );
         current = totalTime( combs, N, coordinates, start );
         if ( current < min ) {
             min = current;
         }
+
+        --limit;
     }
 
     fprintf( out, "%i\n", min );
