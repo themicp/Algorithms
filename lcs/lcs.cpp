@@ -1,59 +1,93 @@
 #include <cstdio>
 #include <string>
-#include <map>
-#include <utility>
-
-#define max( a, b ) a > b? a: b
 
 using namespace std;
 
-map< pair< string, string >, int > memoize;
-map< pair< string, string >, int >::iterator find;
+const int UP = 0, LEFT = 2, DIAG = 1;
 
-int MAX = 1000000;
+int LCS( string A, string B, int N, int M ) {
+    int W[ N + 1 ][ M + 1 ], i, j, K[ N + 1 ][ M + 1 ];
 
-int lcs( string a, string b ) {
-    int i, N = a.length(), M = b.length();
-    int substring_lcs[ M + 1 ][ N + 1 ];
+    for ( j = 0; j <= M; ++j ) {
+        W[ 0 ][ j ] = 0;
+        K[ 0 ][ j ] = LEFT;
+    }
 
-    for ( int m = M; m >= 0; --m ) {
-        for ( int n = N; n >= 0; --n ) {
-            if ( m == M || n == N ) {
-                substring_lcs[ m ][ n ] = 0;
-            }
-            else if ( a.substr( n )[ 0 ] == b.substr( m )[ 0 ] ) {
-                substring_lcs[ m ][ n ] = substring_lcs[ m + 1 ][ n + 1 ] + 1;
+    for ( i = 0; i <= N; ++i ) {
+        W[ i ][ 0 ] = 0;
+        K[ i ][ 0 ] = UP;
+    }
+
+    for ( i = 1; i <= N; ++i ) {
+        for ( j = 1; j <= M; ++j ) {
+            if ( A[ i - 1 ] == B[ j - 1 ] ) {
+                W[ i ][ j ] = W[ i - 1 ][ j - 1 ] + 1;
+                K[ i ][ j ] = DIAG;
             }
             else {
-                substring_lcs[ m ][ n ] = max ( substring_lcs[ m + 1 ][ n ], substring_lcs[ m ][ n + 1 ] );
+                W[ i ][ j ] = max( W[ i - 1 ][ j ], W[ i ][ j - 1 ] );
+                if ( W[ i ][ j ] == W[ i - 1 ][ j ] ) {
+                    K[ i ][ j ] = UP;
+                }
+                else {
+                    K[ i ][ j ] = LEFT;
+                }
             }
         }
     }
 
-    return substring_lcs[ 0 ][ 0 ];
+    i = N;
+    j = M;
+    string C = "";
+    while ( i >= 0 && j >= 0 ) {
+        switch ( K[ i ][ j ] ) {
+            case UP:
+                --i;
+                break;
+            case DIAG:
+                C = A[ i - 1 ] + C; 
+                --i;
+                --j;
+                break;
+            case LEFT:
+                --j;
+                break;
+        }
+    }
+
+    printf( "LCS: %s\n", C.c_str() );
+
+    for ( i = 0; i <= N; ++i ) {
+        for ( j = 0; j <= M; ++j ) {
+            printf( "%i\t", W[ i ][ j ] );
+        }
+        printf( "\n" );
+    }
+    for ( i = 0; i <= N; ++i ) {
+        for ( j = 0; j <= M; ++j ) {
+            switch ( K[ i ][ j ] ) {
+                case LEFT:
+                    printf( "_" );
+                    break;
+                case UP:
+                    printf( "|" );
+                    break;
+                case DIAG:
+                    printf( "\\" );
+                    break;
+            }
+
+            printf( "\t" );
+        }
+        printf( "\n" );
+    }
+
+    return W[ N ][ M ];
 }
 
 int main() {
-    FILE* fi = fopen( "lcs.in", "r" );
-    FILE* fo = fopen( "lcs.out", "w" );
-    int i, o;
-
-    string a;
-    string b;
-
-    char temp[ 2 ][ MAX ];
-
-    fscanf( fi, "%s", temp[ 0 ] );
-    fscanf( fi, "%s", temp[ 1 ] );
-
-    a = temp[ 0 ];
-    b = temp[ 1 ];
-
-    fprintf( fo, "%i\n", lcs( a, b ) );
-
-
-    fclose( fi );
-    fclose( fo );
+    string A = "hello";
+    string B = "zero";
+    printf( "LCS( %s, %s ) = %i\n", A.c_str(), B.c_str(), LCS( A, B, A.size(), B.size() ) );
     return 0;
 }
-
