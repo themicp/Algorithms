@@ -65,27 +65,6 @@ int main() {
         oldy = ay;
         ax = nextx;
         ay = nexty;
-
-#ifndef NDEBUG
-        printf( "Indunction step: %i\n", i );
-        for ( y = 5; y >= 0; --y ) {
-            printf( "%i:\t", y );
-            for ( x = 0; x <= 5; ++x ) {
-                if ( A[ x + OFFSET ][ y + OFFSET ] == INF ) {
-                    printf( "INF\t" );
-                }
-                else {
-                    printf( "%i\t", A[ x + OFFSET ][ y + OFFSET ] );
-                }
-            }
-            printf( "\n" );
-        }
-        printf( "\t" );
-        for ( x = 0; x <= 5; ++x ) {
-            printf( "%i\t", x );
-        }
-        printf( "\n" );
-#endif
     }
 
     for ( i = 0; i < X; ++i ) {
