@@ -11,7 +11,7 @@ const int INF = 1987654321;
 const int X = 2001;
 const int OFFSET = 1000;
 
-int x, y, i, j, N, **A, minx, miny, ax, ay, xprime, yprime, solution = INF, lowx, lowy, highx, highy, oldx, oldy, nextx, nexty, d;
+int x, y, i, j, N, **A, minx, miny, ax, ay, xprime, yprime, solution = INF, lowx, lowy, highx, highy, oldx, oldy, nextx, nexty, d[ 2 ];
 
 int main() {
     scanf( "%d", &N );
@@ -50,13 +50,11 @@ int main() {
         lowy = min( lowy, nexty );
         highx = max( highx, nextx );
         highy = max( highy, nexty );
-        d = abs( oldy - ay );
-        for ( x = lowx; x <= highx; ++x ) {
-            A[ x ][ ay ] = A[ x ][ oldy ] + d;
-        }
-        d = abs( oldx - ax );
-        for ( y = lowy; y <= highy; ++y ) {
-            A[ ax ][ y ] = A[ oldx ][ y ] + d;
+        d[ 0 ] = abs( oldy - ay );
+        d[ 1 ] = abs( oldx - ax );
+        for ( j = min( lowy, lowx ); j <= max( highx, highy ); ++j ) {
+            A[ j ][ ay ] = A[ j ][ oldy ] + d[ 0 ];
+            A[ ax ][ j ] = A[ oldx ][ j ] + d[ 1 ];
         }
         A[ oldx ][ ay ] = miny;
         A[ ax ][ oldy ] = minx;
