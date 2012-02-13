@@ -14,7 +14,7 @@ int i, j, cntV, cntE, u, v, w, sum, neighbor[ 2005 ];
 Neighbor V[ 2005 ][ 2005 ];
 bool marked[ 2005 ];
 vector< pair< int, pair< int, int > > > E( 1 );
-priority_queue< pair< int, int > > front;
+priority_queue< pair< int, int > > frontier;
 pair< int, int > top;
 
 int main() {
@@ -39,18 +39,18 @@ int main() {
     }
     marked[ j ] = true;
     for ( i = 0; i < neighbor[ j ]; ++i ) {
-        front.push( make_pair( -V[ j ][ i ].w, V[ j ][ i ].key ) );
+        frontier.push( make_pair( -V[ j ][ i ].w, V[ j ][ i ].key ) );
     }
 
-    while ( !front.empty() ) {
-        top = front.top();
-        front.pop();
+    while ( !frontier.empty() ) {
+        top = frontier.top();
+        frontier.pop();
         if ( !marked[ top.second ] ) {
             marked[ top.second ] = true;
             sum += -top.first;
             for ( i = 0; i < neighbor[ top.second ]; ++i ) {
                 if ( !marked[ V[ top.second ][ i ].key ] ) {
-                    front.push( make_pair( -V[ top.second ][ i ].w, V[ top.second ][ i ].key ) );
+                    frontier.push( make_pair( -V[ top.second ][ i ].w, V[ top.second ][ i ].key ) );
                 }
             }
         }
