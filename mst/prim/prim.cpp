@@ -9,7 +9,7 @@ struct Neighbor {
     int w;
 };
 
-FILE *in = fopen( "prim.in", "r" );
+FILE *in = fopen( "mst.in", "r" );
 int i, j, cntV, cntE, u, v, w, sum, neighbor[ 2005 ];
 Neighbor V[ 2005 ][ 2005 ];
 bool marked[ 2005 ];
