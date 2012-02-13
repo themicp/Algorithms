@@ -9,10 +9,10 @@ struct Node {
 };
 
 Node* find( Node &A ) {
-    if ( A.root != NULL ) {
-        return find( *A.root );
+    if ( A.root != &A ) {
+        A.root = find( *A.root );
     }
-    return &A;
+    return A.root;
 }
 
 void Union( Node &A, Node &B ) {
@@ -46,10 +46,9 @@ int main() {
         fscanf( in, "%i %i %i", &u, &v, &w );
         --u;
         --v;
-        V[ u ].size = 1;
-        V[ v ].size = 1;
-        V[ u ].root = NULL;
-        V[ v ].root = NULL;
+        V[ u ].size = V[ v ].size = 1;
+        V[ u ].root = &V[ u ];
+        V[ v ].root = &V[ v ];
         E.push( make_pair( -w, make_pair( u, v ) ) );
     }
 
