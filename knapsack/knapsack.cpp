@@ -6,8 +6,6 @@ using namespace std;
 
 FILE *in = fopen( "knapsack.in", "r" );
 
-const int INF = 123456789;
-
 int N, C, i, j, w;
 int *W, *A;
 
@@ -19,16 +17,17 @@ int main() {
 
     for ( i = 0; i < N; ++i ) {
         fscanf( in, "%i", &A[ i ] );
-        W[ A[ i ] ] = 1;
     }
 
-    for ( j = 0; j <= C; ++j ) {
-        W[ j ] = INF;
+    while ( j <= C ) {
+        w = -1;
         for ( i = 0; i < N; ++i ) {
             if ( j - A[ i ] >= 0 ) {
-                W[ j ] = min( w, W[ j - A[ i ] ] + 1 );
+                w = ( w == -1 )? W[ j - A[ i ] ]: min( w, W[ j - A[ i ] ] );
             }
         }
+        W[ j ] = w + 1; 
+        ++j;
     }
     printf( "%i\n", W[ C ] );
     return 0;
