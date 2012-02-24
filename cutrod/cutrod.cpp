@@ -4,7 +4,7 @@
 using namespace std;
 
 FILE *in = fopen( "cutrod.in", "r" );
-int N, *P, i, j, k, temp, maxi, *w;
+int N, *P, *w, i, j, k, temp, maxi;
 
 int main() {
     fscanf( in, "%i", &N );
