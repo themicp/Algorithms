@@ -4,30 +4,24 @@
 using namespace std;
 
 FILE *in = fopen( "cutrod.in", "r" );
-int N, *P, i, j, k, temp, maxi, *w;
+int N, *P, i, j, temp, maxi, *w;
 
 int main() {
     fscanf( in, "%i", &N );
-    P = (int*)malloc( ( N + 1 )*sizeof( int ) );
+    P = ( int* )malloc( ( N + 1 ) * sizeof( int ) );
     for ( i = 1; i <= N; ++i ) {
         fscanf( in, "%i", &P[ i ] );
     }
 
-    w = (int*)malloc( N * sizeof( int ) );
+    w = ( int* )malloc( N * sizeof( int ) );
 
-    i = 1;
-    while( i <= N ) {
-        j = 1;
-        k = i - 1;
+    for ( i = 1; i <= N; ++i ) {
         maxi = 0;
-        while ( j <= k ) {
-            temp = w[ j ] + w[ k ];
+        for ( j = 1; j <= i - j; ++j ) {
+            temp = w[ j ] + w[ i - j ];
             maxi = max( temp, maxi );
-            ++j;
-            --k;
         }
         w[ i ] = max( maxi, P[ i ] );
-        ++i;
     }
     printf( "%i\n", w[ N ] );
 
