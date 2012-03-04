@@ -136,7 +136,24 @@ string subtract( string a, string b ) {
     return c;
 }
 
+string divide( string a, string b ) {
+    int i, quotient, times;
+    string c = "";
+
+    c = "100";
+    printf( "-%i\n", c.compare( "300" ) );
+    i = 1;
+    while ( c.compare( b ) < -1 ) {
+        printf( "%i\n", c.compare( b ) );
+        c = multiply( a, toString( i ) );
+        printf( "%s\n", c.c_str() );
+        ++i;
+    }
+
+    return c;
+}
+
 int main() {
-    printf( "%s\n", subtract( "101", "5" ).c_str() );
+    printf( "%s\n", divide( "100", "5" ).c_str() );
     return 0;
 }
