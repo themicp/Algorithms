@@ -1,6 +1,7 @@
 #include <cstdio>
 #include <string>
 #include <cmath>
+#include <utility>
 
 using namespace std;
 
@@ -130,30 +131,43 @@ string subtract( string a, string b ) {
         if ( j > k ) {
             k += 10;
             left = 1;
+            if ( i == 0 ) {
+                c = "-";
+                return c;
+            }
         }
         c.insert( 0, toString( k - j ) );
     }
     return c;
 }
 
-string divide( string a, string b ) {
-    int i, quotient, times;
-    string c = "";
+pair< string, int > divide( string a, string b ) {
+    int i, quotient = 0, times;
+    string c = b;
 
-    c = "100";
-    printf( "-%i\n", c.compare( "300" ) );
-    i = 1;
-    while ( c.compare( b ) < -1 ) {
-        printf( "%i\n", c.compare( b ) );
-        c = multiply( a, toString( i ) );
-        printf( "%s\n", c.c_str() );
-        ++i;
+    while ( subtract( a, b ) != "-" ) {
+        i = 1;
+        while ( subtract( c, a ) == "-" ) {
+            c = multiply( b, toString( i ) );
+            ++i;
+        }
+        if ( subtract( a, c ) == "-" ) {
+            c = multiply( b, toString( i - 2 ) );
+            i = i - 1;
+        }
+        a = subtract( a, c );
+        c = b;
+        quotient *= 10;
+        quotient += i - 1;
     }
 
-    return c;
+    return make_pair( a, quotient );
 }
 
+pair< string, int > result;
+
 int main() {
-    printf( "%s\n", divide( "100", "5" ).c_str() );
+    result = divide( "100", "8" );
+    printf( "%s - %i\n", result.first.c_str(), result.second );
     return 0;
 }

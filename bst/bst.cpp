@@ -11,6 +11,49 @@ struct Node {
     Node* left;
 };
 
+void print( Node* A ) {
+    int count, i;
+    queue< Node* > nodes;
+    nodes.push( A );
+    count = 1;
+    i = count;
+    count = 0;
+
+    while ( !nodes.empty() && ( i > 0 || count > 0 ) ) {
+        if ( i > 0 ) {
+            if ( nodes.front() == NULL ) {
+                printf( "NULL " );
+            }
+            else {
+                printf( "( %i, %i ) ", nodes.front()->k, nodes.front()->v );
+                nodes.push( nodes.front()->left );
+                nodes.push( nodes.front()->right );
+                count += 2;
+            }
+            nodes.pop();
+            --i;
+        }
+        else {
+            printf( "\n" );
+            i = count;
+            count = 0;
+        }
+    }
+    printf( "\n" );
+}
+
+Node** search( Node** A, int k ) {
+    Node* root = *A;
+
+    if ( k < root->k ) {
+        return root->left == NULL ? A : search( &root->left, k );
+    }
+    if ( k > root->k ) {
+        return root->right == NULL ? A : search( &root->right, k );
+    }
+    return A;
+}
+
 void insert( Node** A, int k, int v ) {
     Node* b = ( Node* )malloc( sizeof( Node ) );
     Node** result;
@@ -35,44 +78,11 @@ void insert( Node** A, int k, int v ) {
     ( *result )->right = b;
 }
 
-Node** search( Node** A, int k ) {
-    Node* root = *A;
-
-    if ( k < root->k ) {
-        return root->left == NULL ? A : search( &root->left, k );
-    }
-    if ( k > root->k ) {
-        return root->right == NULL ? A : search( &root->right, k );
-    }
-    return A;
-}
-
 Node** successor( Node** A ) {
     if ( ( *A )->left == NULL ) {
         return A;
     }
     return successor( &( *A )->left );
-}
-
-void remove( Node** A, int k ) {
-    Node** succ = successor( A );
-    if ( ( *A )->left == NULL && ( *A )->right == NULL ) {
-        *A = NULL; //memory leak
-        return;
-    }
-    if ( ( *A )->left != NULL && ( *A )->right != NULL ) {
-        *A = succ;
-        remove( A, ( *succ )->k );
-        return;
-    }
-    if ( ( *A )->left == NULL ) {
-        *A = ( *A )->right;
-        return;
-    }
-    if ( ( *A )->right == NULL ) {
-        *A = ( *A )->left;
-        return;
-    }
 }
 
 Node** find( Node** A, int k ) {
@@ -88,23 +98,47 @@ Node** find( Node** A, int k ) {
     return A;
 }
 
-void print( Node* A ) {
-    queue< Node > nodes;
-    nodes.push_back( A );
-
-    while ( !nodes.empty() ) {
-        if ( nodes.front() == NULL ) {
-            printf( "NULL " );
-        }
-        printf( "( %i, %i ) ", nodes.front()->k, nodes.front()->v );
-        nodes.push( nodes.front()->left );
-        nodes.push( nodes.front()->right );
-        nodes.pop();
+void remove( Node** A, int k ) {
+    Node** curr = find( A, k );
+    if ( *curr == NULL ) {
+        return;
+    }
+    Node temp;
+    Node** succ = successor( curr );
+    if ( ( *curr )->left == NULL && ( *curr )->right == NULL ) {
+        *curr = NULL; //memory leak
+        return;
+    }
+    if ( ( *curr )->left != NULL && ( *curr )->right != NULL ) {
+        temp.k = ( **succ ).k;
+        temp.v = ( **succ ).v;
+        remove( A, ( *succ )->k );
+        ( *curr )->k = temp.k;
+        ( *curr )->v = temp.v;
+        return;
+    }
+    if ( ( *curr )->left == NULL ) {
+        *curr = ( *curr )->right;
+        return;
+    }
+    if ( ( *curr )->right == NULL ) {
+        *curr = ( *curr )->left;
+        return;
     }
 }
 
 Node *A;
 
 int main() {
+    insert( &A, 5, 2 );
+    insert( &A, 10, 2 );
+    insert( &A, 0, 2 );
+    insert( &A, 15, 2 );
+    insert( &A, -5, 2 );
+    insert( &A, 3, 2 );
+    insert( &A, 7, 2 );
+    print( A );
+    printf( "Remove\n" );
+    print( A );
     return 0;
 }
