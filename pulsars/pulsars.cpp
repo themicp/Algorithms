@@ -70,7 +70,6 @@ int main() {
         }
     }
 
-    // Calculate the angle of each point.
     for ( i = 0; i < N; ++i ) {
         if ( mink != i ) {
             Q[ i ].distance = sqrt( 
