@@ -44,7 +44,7 @@ int main() {
             result.second = i;
         }
     }
-    printf( "%i\n", result.first, result.second );
+    printf( "%i\n", result.first );
     i = result.second;
     while ( i != -1 ) { 
         res.push( A[ i ].value );
