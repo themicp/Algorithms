@@ -19,7 +19,7 @@ lli lcm( lli a, lli b ) {
     return ( a * b ) / gcd( a, b );
 }
 
-FILE *in = fopen( "prevdiv.in", "r" ), *out = fopen( "prevdiv.out", "w" );
+FILE *in = fopen( "prevdiv.in", "r" );
 int N, a, i, result;
 lli b = 1;
 
