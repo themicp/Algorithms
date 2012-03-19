@@ -10,7 +10,7 @@ using namespace std;
 FILE *in = fopen( "lis.in", "r" );
 int N, L, i, j, *M, *X, *P;
 
-int BS( int L, int debug, int key ) {
+int BS( int L, int key ) {
     int i, j, maxj = 0, mid;
     i = 1; 
     j = N;
@@ -41,7 +41,7 @@ int main() {
     M[ 0 ] = 0;
     X[ 0 ] = INF;
     for ( i = 1; i <= N; ++i ) {
-        j = BS( L, 0, i );
+        j = BS( L, i );
         P[ i ] = M[ j ];
         if ( j == L || X[ i ] < ( X[ M[ j + 1 ] ] && M[ j + 1 ] != INF ) ) {
             L = max( L, j + 1 );
