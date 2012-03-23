@@ -2,7 +2,6 @@
 #include <cstdlib>
 #include <string>
 #include <cmath>
-#include <utility>
 
 using namespace std;
 
@@ -21,7 +20,7 @@ int main() {
     fscanf( in, "%i %i", &N, &C );
 
     word = new char*[ N ];
-    nline = ( Newline* )malloc( N * sizeof( Newline ) );
+    nline = new Newline[ N ];
 
     for ( i = 0; i < N; ++i ) {
         word[ i ] = new char[ C + 1 ];
@@ -31,7 +30,6 @@ int main() {
 
     for ( i = 0; i < N; ++i ) {
         j = i;
-        sum = 0;
         left = C - strlen( word[ j ] );
         while ( left >= 0 && j >= 0 ) {
             w = pow( ( double )left, 2 );
@@ -51,5 +49,9 @@ int main() {
     }
 
     printf( "%.0lf\n", nline[ N - 1 ].w );
+
+    delete[] word;
+    delete[] nline;
+    fclose( in );
     return 0;
 }
