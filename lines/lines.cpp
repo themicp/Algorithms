@@ -17,17 +17,15 @@ int main() {
 
     L[ 0 ] = 0;
     for ( i = 1; i <= N; ++i ) {
-        nline[ i ] = C * C * N;
+        nline[ i ] = C * C * N; //initialization
         fscanf( in, "%s\n", word );
         L[ i ] = strlen( word );
-
         j = i;
         left = C - L[ j ];
         while ( left >= 0 && j > 0 ) {
             w = left * left;
             w += nline[ j - 1 ];
             nline[ i ] = min( nline[ i ], w );
-
             --j;
             left -= L[ j ] + 1;
         }
