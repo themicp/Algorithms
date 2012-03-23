@@ -1,57 +1,43 @@
 #include <cstdio>
 #include <cstdlib>
 #include <string>
-#include <cmath>
 
 using namespace std;
 
-struct Newline {
-    double w;
-    int left;
-};
-
-double w;
-char **word;
-Newline *nline;
-int N, C, i, j, k, left, sum;
+char *word;
+int N, C, i, j, left, w, *L, *nline;
 FILE *in = fopen( "lines.in", "r" );
 
 int main() {
     fscanf( in, "%i %i", &N, &C );
 
-    word = new char*[ N ];
-    nline = new Newline[ N ];
+    word = new char[ C + 1 ];
+    nline = new int[ N + 1 ];
+    L = new int[ N + 1 ];
 
-    for ( i = 0; i < N; ++i ) {
-        word[ i ] = new char[ C + 1 ];
-        nline[ i ].w = pow( ( double )C, 2 ) * N;
-        fscanf( in, "%s\n", word[ i ] );
-    }
+    L[ 0 ] = 0;
+    for ( i = 1; i <= N; ++i ) {
+        nline[ i ] = C * C * N;
+        fscanf( in, "%s\n", word );
+        L[ i ] = strlen( word );
 
-    for ( i = 0; i < N; ++i ) {
         j = i;
-        left = C - strlen( word[ j ] );
-        while ( left >= 0 && j >= 0 ) {
-            w = pow( ( double )left, 2 );
-            w += ( j > 0 ) ? nline[ j - 1 ].w : 0;
-            nline[ i ].w = min( nline[ i ].w, w );
+        left = C - L[ j ];
+        while ( left >= 0 && j > 0 ) {
+            w = left * left;
+            w += nline[ j - 1 ];
+            nline[ i ] = min( nline[ i ], w );
 
-            sum = 0;
             --j;
-            if ( j >= 0 ) {
-                for ( k = j; k <= i; ++k ) {
-                    sum += strlen( word[ k ] );
-                    sum += ( k != i ) ? 1 : 0;
-                }
-                left = C - sum; 
-            }
+            left -= L[ j ] + 1;
         }
     }
 
-    printf( "%.0lf\n", nline[ N - 1 ].w );
+    printf( "%i\n", nline[ N ] );
 
     delete[] word;
     delete[] nline;
+    delete[] L;
     fclose( in );
     return 0;
 }
