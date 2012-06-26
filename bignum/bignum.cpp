@@ -5,7 +5,7 @@
 
 using namespace std;
 
-const int N = 10000;
+const int N = 1000000;
 
 string toString( int n ) {
     int i, key;
@@ -165,9 +165,16 @@ pair< string, int > divide( string a, string b ) {
 }
 
 pair< string, int > result;
+string a = "1", temp;
+string prev = "1", current = "1";
+int i, j;
 
 int main() {
-    result = divide( "100", "8" );
-    printf( "%s - %i\n", result.first.c_str(), result.second );
+    for ( i = 2; i < 101; ++i ) {
+        printf( "%s\n", current.c_str() );
+        temp = current;
+        current = add( prev, current );
+        prev = temp;
+    }
     return 0;
 }
