@@ -9,10 +9,8 @@ FILE *in = fopen( "in", "r" ), *out = fopen( "out", "w" );
 bool forbid[ 105 ];
 map< pair< long long int, int >, int > W;
 int N, M, i, j, x, A[ 20 ][ 105 ], T[ 20 ];
-int debug;
 
 int bruteforce( bool forbid[ 105 ], int m, int depth, long long int forbit ) {
-    ++debug;
     int i, j, current, mincost = 987654321;
     long long int temp = forbit;
     for ( i = 0; i < N; ++i ) {
@@ -48,14 +46,10 @@ int main() {
         }
     }
     for ( i = 0; i < M; ++i ) {
-        printf( "--%i--", i );
         for ( j = 0; j < N; ++j ) {
             A[ i ][ j ] = T[ i ] - A[ i ][ j ];
-            printf( "%i ", A[ i ][ j ] );
         }
-        printf( "\n" );
     }
-    printf( "%i\n", bruteforce( forbid, 0, 0, 0 ) );
-    printf( "Calls: %i\n", debug );
+    fprintf( out, "%i\n", bruteforce( forbid, 0, 0, 0 ) );
     return 0;
 }
