@@ -1,36 +1,38 @@
-function MergeSort( A, start, end ) {
-    if ( start >= end ) {
-        return [ A[ start ] ];
+function MergeSort( A ) {
+    if ( A.length <= 1 ) {
+        return [ A[ 0 ] ];
     }
 
-    var L = MergeSort( A, start, Math.floor( ( start + end )/2 ) );
-    var R = MergeSort( A, Math.floor( ( start + end )/2 ) + 1, end );
-    var merged = [];
-    var i = 0, j = 0;
-    while ( i < L.length && j < R.length ) {
-        if ( L[ i ] < R[ j ] ) {
-            merged.push( L[ i ] );
+    return merge( MergeSort( A.slice( 0, Math.floor( A.length/2 ) ) ), MergeSort( A.slice( Math.floor( A.length/2 ), A.length ) ) );
+}
+
+function merge( A, B ) {
+    var merged = [], i = 0, j = 0;
+
+    while ( i < A.length && j < B.length ) {
+        if ( A[ i ] < B[ j ] ) {
+            merged.push( A[ i ] );
             ++i;
         }
         else {
-            merged.push( R[ j ] );
+            merged.push( B[ j ] );
             ++j;
         }
     }
-    if ( i != L.length ) {
-        for ( j = i; j < L.length; ++j ) {
-            merged.push( L[ j ] );
+    if ( i != A.length ) {
+        for ( j = i; j < A.length; ++j ) {
+            merged.push( A[ j ] );
         }
     }
-    else if ( j != R.length ) {
-        for ( i = j; i < R.length; ++i ) {
-            merged.push( R[ i ] );
+    else if ( j != B.length ) {
+        for ( i = j; i < B.length; ++i ) {
+            merged.push( B[ i ] );
         }
     }
-
+    
     return merged;
 }
 
 var A = [ 7, 2, 1, 6, 8, 5, 3, 4 ];
 console.log( 'Unsorted: ' + A );
-console.log( 'Sorted: ' + MergeSort( A, 0, A.length - 1 ) );
+console.log( 'Sorted: ' + MergeSort( A ) );
