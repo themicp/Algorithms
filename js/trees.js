@@ -20,7 +20,7 @@ function Tree( root ) {
 
     this.printTree = function() {
         for ( var i = 0; i < nodes.length; ++i ) {
-            console.log( 'node ' + i + ' has children: ' + nodes[ i ].children + ' and data: ' + nodes[ i ].data );
+            console.log( 'node ' + i + ' { children: ' + nodes[ i ].children + ', data: ' + nodes[ i ].data + ' }' );
         }
     }
 
