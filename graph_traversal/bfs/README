@@ -1,0 +1,14 @@
+In a file bfs.in, the first line contains two integers, n and m.
+0 <= n <= 1,000,000
+0 <= m <= 1,000,000
+separated by a space.
+This indicates a graph with n vertices and m edges.
+In the next line, two integers are specified, s and t.
+0 <= s <= t < n
+These indicate a starting vertex and an ending vertex.
+The next m lines contain two integers each: a[i], b[i].
+These indicate that edge i connects vertices a[i] and b[i]
+The output file bfs.out contains one single integer, k
+the number of edges required to cross in order to reach from s to t
+or -1 if it is not possible to go from s to t.
+Note that edge numbering is 0-based and the graph is directed.
