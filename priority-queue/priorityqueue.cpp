@@ -5,17 +5,17 @@
 using namespace std;
 
 struct Item {
-    int priority;
-    int data;
+    long long int priority;
+    long long int data;
 };
 
 struct heapTree {
     Item *items;
-    int size;
+    long long int size;
 };
 
 heapTree newTree() {
-    heapTree queue; 
+    heapTree queue;
 
     queue.items = ( Item* )calloc( 10000, sizeof( Item ) );
     queue.size = 0;
@@ -80,13 +80,13 @@ void combineDown( heapTree queue, int key ) {
     }
 
     if ( queue.items[ l ].priority > 0 ) {
-        if ( queue.items[ l ].priority >= queue.items[ r ].priority ) { 
+        if ( queue.items[ l ].priority >= queue.items[ r ].priority ) {
             swap( queue, l, key );
             combineDown( queue, l );
         }
     }
     if ( queue.items[ r ].priority > 0 ) {
-        if ( queue.items[ r ].priority > queue.items[ l ].priority ) { 
+        if ( queue.items[ r ].priority > queue.items[ l ].priority ) {
             swap( queue, r, key );
             combineDown( queue, r );
         }
@@ -95,7 +95,7 @@ void combineDown( heapTree queue, int key ) {
 
 void insert( heapTree &queue, Item item ) {
     int size = queue.size;
-    
+
     queue.items[ size ] = item;
     ++queue.size;
 
