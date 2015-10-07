@@ -5,13 +5,13 @@
 using namespace std;
 
 struct Item {
-    long long int priority;
-    long long int data;
+    unsigned long long int priority;
+    unsigned long long int data;
 };
 
 struct heapTree {
     Item *items;
-    long long int size;
+    unsigned long long int size;
 };
 
 heapTree newTree() {
