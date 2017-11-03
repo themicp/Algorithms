@@ -5,8 +5,8 @@
 using namespace std;
 
 struct Item {
-    unsigned long long int priority;
-    unsigned long long int data;
+    unsigned long long int int priority;
+    unsigned long long int int data;
 };
 
 struct heapTree {
