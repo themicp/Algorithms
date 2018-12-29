@@ -13,7 +13,7 @@ struct heapTree {
     Item *items;
     unsigned long long int size;
 };
-
+/*ΔΟΚΙΜΑΖΩ ΑΥΤΑ ΠΟΥ ΕΜΑΘΑ ΣΤΟ ΒΙΝΤΕΟ ΣΑΣ*/
 heapTree newTree() {
     heapTree queue;
 
